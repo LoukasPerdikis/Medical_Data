@@ -176,3 +176,89 @@ This, however is where the third obstacle was encountered: MICE imputation on ca
 Finally, the resulting dataset was investigated for duplicate rows. The first instance of each row was kept, and the remaining duplicates removed from the dataset. 
 
 In order to further peruse and investigate the nature of the cleaned dataset for machine learning, the pandas_profile library tool to generate data reports was used once again. For more details, please access the html file in the root folder (final_medical_data_profile.html).
+
+# Modeling
+
+## SMOTE
+
+First, the target and feature columns were separated and sklearn's train_test_split class was used to generate the appropriate training and testing datasets. Upon inspection of the training dataset targets, it was found that a huge disparity existed between the number of the one class label when compared to the other. In other words, any model training on such a dataset would know how to classify one label far better than the other as there was not an even distribution of target labels.
+
+This was the fourth obstacle, and was dealt with elegantly using SMOTE. SMOTE aims to balance the target labels to include more patient deaths than currently exist, ensuring a well balanced model. This is achieved by upsampling the target label with fewer counts by generating data that is statistically similar to other rows of the same target. By the end of the SMOTE application, there was an even distribution of target labels that the models could learn from.
+
+## Machine Learning
+
+As declared by the problem statement, the purpose of this project is to compare several binary classification models in their ability to predict whether or not a hospital patient would die. To this end, the classification algorithms used were sklearn's:
+
+1. Gaussian Naive Bayes
+2. Logistic Regression
+3. K-Nearest Neighbors 
+4. Random Forest
+
+Multiple parameters for each classifier was also established, for the purpose of Gridsearch training. Please note, however, that parameter selection options were determined with requirements of efficiency and simplicity. This project is concerned more with the comparison of different models than the optimization of a single model, therefore parameter variation was slim and not of the highest priority.
+
+The trained models were saved in a dictionary, were orderly model evaluation could take place.
+
+# Evaluation
+
+## Metrics Discussion
+
+Suitable classification algorithm metrics included model accuracy, precision, recall and F1 scores. A confusion matrix heatmap was also be of great assistance in determining how well the models performed in terms of Type I and Type II errrors. In addition to this, the ROC curve alongisde the AUC score was be used to determine how well the model has performed in classifying unseen data.
+
+In general, the closer the scores were to 1, the better the model had performed. Conversely, the closer the scores were to 0, the worse the model had performed. This applied to the accuracy, precision, f1, recall, and AUC scores.
+To interpret the ROC curve, the closer the curve appeared to the top left of the plot (i.e., the larger the area under the curve), the better the model had performed.
+
+The reason why these metrics were chosen was due to what they represent relative to classification machine learning problems, as outlined in this [article](https://vitalflux.com/accuracy-precision-recall-f1-score-python-example/). Before the metrics can be discussed below, a short description of the difference between false and true positives and negatives is provided:
+
+**True Positive**: Extent to which model correctly predicts the positive class.
+
+**True Negative**: Extent to which the model correctly predicts the negative class.
+
+**False Positive**: Extent to which the model incorrectly predicts a negative 
+class as positive.
+
+**False Negative**: Extent to which the model incorrectly predicts a positive 
+class as negative.
+
+## Accuracy
+
+Accuracy represents how well a model is able to achieve an exact match when comparing its predicted values and the true values. It is calculated through the ratio of true positives and true negaties to all positive and negative data points. The score produced gives an idea of how accurately the model can predict the **correct** outcome, given the appropriate datapoints. Accuracy does not give any information regarding the nature of the produced model's errors.
+
+## Precision
+
+This is the proportion of positively predicted labels that are indeed correct. Unfortunately, precision is affected by class distribution, which means that it will be lower if there are fewer of one kind of class than the other. While the training dataset underwent SMOTE in order to balance class labels, no such exercise was performed on the testing dataset (or any other biased prediction set that may exist). For this reason however, precision can be a very useful indicator when classes are very imbalanced. It is calculated by taking the ratio of the true positives to the sum of false positives and true positives. It is a great metric to see how well the model can avoid false positives.
+
+## Recall
+
+This metric represents the model's ability to predict the positive values out of all actual positive values. A high recall shows that a model can easily identify true positive data examples, and opposite is true if the recall score is low. It is calculated by taking the ratio of true positives to the sum of false negatives and true positives. Recall is slightly different to precision, in that precision is concerned with the proportion of positively predicte labels, while the recall actually needs to correctly identify what those positive labels are. It is a great metric to see how well the model can avoid false negatives.
+
+## F1
+
+This metric is a function of the recall and precision metrics. It is akin to accuracy in that it gives a single value which can be interpreted as the model's overall quality at a high level. It is calculated through the following formula: 
+F1 = 2 * Precision * Recall / (Precision + Recall)
+
+It is an extremely useful metric in cases where models are optimized for recall or precision, but such a use case is beyond the scope of this project.
+
+## Model Performance Discussion
+
+In terms of **accuracy**, the RF model was clearly the best with a score of 91%. All other models scored in the high 70s, with the worst performaing model (in terms of accuracy) being KNN at 74%. For instances where accuracy is the only metric that matters, RF is the obvious choice.
+
+In terms of **precision**, once again the RF model is superior with a score of 52%. It is alarming that the highest precision score is only 52%, however, as this shows that half the time the model predicts a patient would die, they actually would not die. The other models perform even worse, with values ranging from 16% (KNN once again) to 23%. This means that for these models, patients would survive between 84% and 77% of the time the model has determined they would not.
+
+In terms of **recall**, the LR model scored the highest with 70%. It is worth noting that for this metric, the previously superior RF model scored dismally low, only managing to correctly predict positive values 28% of the time. It is worth noting that the other models also scored higher than RF in recall, at 49% for KNN and 66% for NB. This shows that while RF is relatively good at avoiding false positives (compared to the other trained models), it is hopelessly outshined when predicting false negatives. This kind of situation eloquently demonstrates why the precision-recall tradeoff is important, and why multiple metrics need to be taken into account when evaluating model performance.
+
+In terms of **F1**, RF once again scores the highest at 36% (which is not good in any case). The other models are not too far behind (ranging between 24% and 35%). The overall low F1 scores are to be expected, as the recall and precision scores for all the models were not simultaneously high. Therefore, despite the high accuracy of the models, all are severely lacking in their ability to discern between false positives and false negatives.
+
+In terms of **ROC-AUC**, RF scores the highest once again with a value of 85%. The lowest scoring model for this metric is the KNN model 67%. These scores mean that each model does an acceptable job of classifiying the data, with RF scoring it better than the others. It should also be noted that the LR model also received a high ROC-AUC score, at 82%.
+
+## Conclusion
+
+Despite poor performance across the board in terms of false postive and flase negative discernment, all of the models did an acceptable job of classifying unseen data. The poor recall and precision scores could be improved with further analysis and model tweaking, however this is beyond the scope of this project.
+
+Overall, the Random Forest classifier was the highest performing model, having obtained the best accuracy, precision and ROC-AUC scores, but performing the worst in recall. The produced RF model's accuracy and ROC-AUC are deemed sufficiently high for the purposes of the problem statement declared in Section 3.
+
+# Deployment
+
+A technical article has been written and published on Medium. It can be found [here]()INSERT ARTICLE 
+
+Please refer to the README file (in the root folder of this notebook) for general information on this project.
+
