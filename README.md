@@ -2,7 +2,7 @@
 
 # Project Overview
 
-The field of medical science is one that has evolved over millenia as humans actively seek to understand and treat human ailments and diseases. In this modern, data-driven age, patient data can be a great source of understanding how different internal and external biological features influence the resulting diagnosis of sick patients.
+The field of medical science is one that has evolved over millennia as humans actively seek to understand and treat human ailments and diseases. In this modern, data-driven age, patient data can be a great source of understanding how different internal and external biological features influence the outcome of sick patients.
 
 This project aimed to build and compare several binary classification algorithms tasked to classify whether a hospital patient would survive or not, using the patient's medical data. It was not immediately clear what direction this project would take, but rather the outcome and overall problem to solve was determined through investigation and exploratory data analysis.
 
@@ -65,9 +65,7 @@ Some factors to consider when diagnosing a patient include:
 
 A dataset that has information on as many of these factors as possible would go a long way in assisting with the understanding of how each of these factors contributes overall to patient health. Given that this project is concerned with patient survivability, each of these factors **should** be analysed and considered with the probability (or actual) of patient survival in mind.
 
-Something to consider is that many patients that enter hospital premisis requiring care usually do so under traumatic conditions. This results in their inability to provide medical practitioners with all the necessary information that could help ensure their survival. By understanding how a few key factors would affect the probability of patient survival, it is possible to maximise the incoming information for medical practitioners, and hence ensure the best possible care is provided for the patients. This in turn will likely increase the probability that the patients survive.
-
-The benefit of taking a data approach with a problem like this is that statistical and broader data analyses should be able to provide insights as to how each of the aforementioned factors affect each other and the patient as a whole, which is why a comprehensive understanding of the dataset is the next important step in this project.
+Something to consider is that many patients that enter hospital premises requiring care usually do so under traumatic conditions. This results in their inability to provide medical practitioners with all the necessary information that could help ensure their survival. By understanding how a few key factors would affect the probability of patient survival, it is possible to maximise the incoming information for medical practitioners, and hence ensure the best possible care is provided for the patients. This in turn will likely increase the probability that the patients survive.
 
 ## APACHE Framework
 
@@ -77,9 +75,11 @@ The APACHE system comprises of multiple medical measurements and metrics taken f
 
 The APACHE framework measurements and scoring system proved to be extremely useful during machine learning model development in this project, comprising of almost the entire group of features used.
 
+The benefit of taking a data approach with a problem like this is that statistical and broader data analyses should be able to provide insights as to how each of the aforementioned factors affect each other and the patient as a whole, which is why a comprehensive understanding of the dataset was the next important step in this project.
+
 # Data Understanding
 
-The most important tool for understanding the data that was used in this project was the medical data key dataset. The data dictionary provides information on how each of the data columns in the patient dataset should be interpreted and what they represent. This was hugely beneficial for someone without formal medical training as it gave an overview of each potential feature column without the need for extensive reasearch, thus saving quite a bit of time in the completion of this project. 
+The most important tool for understanding the data that was used in this project was the medical data key dataset. The data dictionary provides information on how each of the data columns in the patient dataset should be interpreted and what they represent. This was hugely beneficial for someone without formal medical training as it gave an overview of each potential feature column without the need for extensive research, thus saving quite a bit of time in the completion of this project. 
 
 The data was comprised of 186 columns, fragmented into overarching categories. These categories were:
 
