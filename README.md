@@ -23,6 +23,8 @@ The data used in this project is publicly available on [Kaggle](https://www.kagg
 - medical_data.csv (used for data exploration and machine learning)
 - medical_data_key.csv (used for information and clarity on the patient medical data)
 
+In order to access these files, please clone this repo and unzip as necessary.
+
 **Please note**: 
 I do not own any part of the data used below, and full accreditation to its provision goes to the source publisher on Kaggle (Sadia Anzum). Please use the link provided above to obtain more information about the data used and the author.
 
@@ -138,7 +140,7 @@ For the in-depth analysis and details on the exploration and analysis, please re
 
 By using the data profile report tool from the [pandas_profiling](https://pandas-profiling.ydata.ai/docs/master/index.html) library, effective correlation, interaction, and general data metrics could be obtained for each of the 186 columns. By this stage of the project, however, some columns had already been removed due to irrelevance (identifier columns) or other reasons.
 
-This is where the only obstacle in the project was encountered: the sheer amount of processing power and memory that the profiling tool requires on a large dataset paced enormous strain on my operating system and hardware, and the generated report (which took the format of an html file) often could not even open in Chrome or Edge. Advanced techniques and setting tweaks were required to open the 757MB html file. Please note that this file is availabe in the root folder of this repo (medical_data_profile.html). The code which generates this report can be found in Section 3.2.
+This is where the only obstacle in the project was encountered: the sheer amount of processing power and memory that the profiling tool requires on a large dataset paced enormous strain on my operating system and hardware, and the generated report (which took the format of an html file) often could not even open in Chrome or Edge. Advanced techniques and setting tweaks were required to open the 757MB html file. Please note that this file is unavailabe in this repo due to size limitations. The code which generates this report can be found in Section 3.2.
 
 The data profile report gave insights which were the deciding factor on which columns could (and ultimately would) be used in machine learning development. Most of the variables were useable, and normally distributed (or at least very close to being normally distributed). There are the odd exceptions where a variable had only a single value (such as readmission_status) and in this case the feature was dropped altogether in order to ensure effective model training.
 
