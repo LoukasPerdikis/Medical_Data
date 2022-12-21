@@ -260,5 +260,6 @@ Overall, the Random Forest classifier was the highest performing model, having o
 
 A technical article has been written and published on Medium. It can be found [here]()INSERT ARTICLE 
 
-Please refer to the README file (in the root folder of this notebook) for general information on this project.
+**Please note**:
+Medical advice and recommendations should **ALWAYS** be solicited from a qualified medical practitioner. This project in no way serves as a medical recommendation or medical advice tool.
 
