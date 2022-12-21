@@ -20,8 +20,8 @@ The project followed the CRISP-DM process, namely:
 
 The data used in this project is publicly available on [Kaggle](https://www.kaggle.com/datasets/sadiaanzum/patient-survival-prediction-dataset?resource=download&select=Dataset.csv). There is no personally identifiable information in this data. The data includes two datasets:
 
-- patient medical data (used for data exploration and machine learning)
-- medical data dictionary (used for information and clarity on the patient medical data)
+- medical_data.csv (used for data exploration and machine learning)
+- medical_data_key.csv (used for information and clarity on the patient medical data)
 
 **Please note**: 
 I do not own any part of the data used below, and full accreditation to its provision goes to the source publisher on Kaggle (Sadia Anzum). Please use the link provided above to obtain more information about the data used and the author.
@@ -74,3 +74,91 @@ The APACHE system comprises of multiple medical measurements and metrics taken f
 The APACHE framework measurements and scoring system proved to be extremely useful during machine learning model development in this project, comprising of almost the entire group of features used.
 
 # Data Understanding
+
+The most important tool for understanding the data that was used in this project was the medical data key dataset. The data dictionary provides information on how each of the data columns in the patient dataset should be interpreted and what they represent. This was hugely beneficial for someone without formal medical training as it gave an overview of each potential feature column without the need for extensive reasearch, thus saving quite a bit of time in the completion of this project. 
+
+The data was comprised of 186 columns, fragmented into overarching categories. These categories were:
+
+1. Identifier
+2. Demographic
+3. Labs
+4. Vitals
+5. Labs Blood Gas
+6. APACHE Covariate
+7. APACHE Comorbidity
+8. APACHE Prediction
+9. APACHE Grouping
+10. GOSSIS Example Prediction
+
+Most of the categories were not utilised beyond the means of the data exploration and analysis that occurred, this includes all the identifier columns (as there is no need for such identification in a project such as this) as well as the vitals, labs and blood labs gas categories, which showed very high correlation to the APACHE Covariate category. By using the latter category, better metrics which summarised (or indeed, enhanced) the information present in the former categories were used instead.
+
+Ultimately, the most important data in determining patient survivability was certain demographic columns such as patient BMI or whether or not the patient had undergone surgery, alongside the APACHE Covariate columns which contained key medical measurements such as heart rate, blood pressure, gas levels in the blood, and which severe diseases (if any) a patient suffered from during their stay at the hospital.
+
+In terms of potential target variables for the project, three columns were potential candidates:
+
+1. Hospital Death (binary - did the patient die during their hospital stay or not?)
+2. APACHE IV Hospital Death Probability (numeric - the APACHE probability that a patient would die during their hospital stay)
+3. APACHE IV ICU Death Probability (numeric - the APACHE probability that a patient would die during their ICU stay)
+
+The first of these targets was selected due to ease of use and data cleanliness. No data cleaning was required on the binary column, and there were no missing values. The remaining targets suffered from erroneous values (such as -1 as a probability measure), as well as a small percentage of null values apiece.
+
+The process of understanding the data was rather slow and long, but the extra time spent in the beginning allowed for a highly targeted approach during the exploration and analysis stage which followed. As a result of the data scrutiny, certain 'business' questions were developed and answered.
+
+# Data Exploration and Analysis
+
+## Business Questions from Data Understanding
+
+The following questions were developed as a result of the business and data understanding:
+
+1. What does the probability distribution look like for patient survivability regarding the three potential target variables in the dataset?
+2. Is there inherent bias within the dataset? Are there any ethnicities, ages, or genders which are favoured in terms of data representation?
+3. What are the most common APACHE comorbidity diseases?
+4. Regarding patients with low survival probabilities (APACHE score greater than 50%), what are the mean, min, and max values of their vitals, labs, and APACHE covariates?
+5. Which columns suffer from having an excessive amount of nulls? How will these columns be dealt with?
+
+For the in-depth analysis and details on the answers to these questions, please refer to the notebook (Capstone - Medical Data), specifically Section 3.
+
+## Bias
+
+It is an important step in any data science project to acknowledge and deal with potential bias in the data. The notebook has more details on this, but a brief summary will be described here.
+
+- The data was heavily biased towards Caucasian patients (78%), with the next highest represented race being African Americans at 10%.
+- The mean age of patients in the dataset was 62 years of age. The distribution (as shown in the notebook) showed a heavy skew towards patients who are older.
+- Gender was the demographic measure which suffered from the least amount of bias, where the distribution of male to female data sat at a comfortable 54% / 46% split.
+
+## General Exploration and Analysis
+
+Specific categories in the data were explored and visualised appropriately. Nulls were discovered, alongisde irrelevant or highly correlated columns. This was an important step in the analysis as it helped guide the kind of questions that could be asked and hence, the kind of machine learning problem that could be developed. 
+
+For the in-depth analysis and details on the exploration and analysis, please refer to the notebook (Capstone - Medical Data), specifically Section 3.
+
+## Data Profile
+
+By using the data profile report tool from the [pandas_profiling](https://pandas-profiling.ydata.ai/docs/master/index.html) library, effective correlation, interaction, and general data metrics could be obtained for each of the 186 columns. By this stage of the project, however, some columns had already been removed due to irrelevance (identifier columns) or other reasons.
+
+This is where the only obstacle in the project was encountered: the sheer amount of processing power and memory that the profiling tool requires on a large dataset paced enormous strain on my operating system and hardware, and the generated report (which took the format of an html file) often could not even open in Chrome or Edge. Advanced techniques and setting tweaks were required to open the 757MB html file. Please note that this file is availabe in the root folder of this repo (medical_data_profile.html). The code which generates this report can be found in Section 3.2.
+
+The data profile report gave insights which were the deciding factor on which columns could (and ultimately would) be used in machine learning development. Most of the variables were useable, and normally distributed (or at least very close to being normally distributed). There are the odd exceptions where a variable had only a single value (such as readmission_status) and in this case the feature was dropped altogether in order to ensure effective model training.
+
+Some variables such as patient BMI had missing values that could be calculated by using information provided by other variables. As an example, patient BMI can be calculated by using the patient's height and weight information.
+
+Two variables in particular (paco2_apache and paco2_for_ph_apache) were suspiciously similar in terms of distribution and value structure. These two columns were compared further in Section 4 deemed to be identical, therefore one of them was dropped when used in model development. The group of APACHE comorbidty variables were also deemed useful, as they represented severe diseases that would ultimately affect the potential outcome of the patient.
+
+There were numerous variables (particularly in the labs and vitals categories) which contained a high number of missing values (greater than 55%). Even for the variables that were normally (or otherwise) distributed, it would be undesirable to impute such a large number of values. In this instance, it is fortunate that the dataset is comprehensive enough that it provided many metrics of what was essentially the same measurement. For example, the APACHE covariate score variables (classified under the APACHE covariate category) were often highly correlated with measurements of the same name under the labs and vitals categories. What this means is that if the labs or vitals category measurement for heartrate was missing many of its values, it was feasible to use the APACHE score for heartrate instead, as it was still representing the same information. This was a huge benefit to the model development stage of this project, as the correlation coefficients of variables (generated in the profile report) could be referenced to determine if a variable could simply be replaced by a more robust, correlated alternative. For more information on this, please refer to this [article](https://towardsdatascience.com/why-feature-correlation-matters-a-lot-847e8ba439c4).
+
+Features in particular that need to be discussed further are the diagnosis features (apache_3j_bodysystem, apache_2_bodysystem, apache_3j_diagnosis, and apache_3j_diagnosis). These features characterize the diagnosis the patients received upon their admittance into the hospital. While it was a useful piece of information to have, there was a risk that a model might prioritize diagnoses instead of the physical characteristics of each APACHE measurement when assessing a patient's hospital outcome. While certain diagnoses are more severe than others, miracle recoveries do occur and any such bias as a result of diagnosis should be excluded as much as possible. For this reason, the aforementioned columns were not included from any further analysis.
+
+## Null Value Strategy
+
+For variables which could not be replaced via correlation as described above another strategy needed to be implemented in order to deal with missing values. The profile report showed that there were many important variables that were missing a small percentage of their values. When no correlated alternative wass deemed suitable, the distribution of these variables was determined (normal, Bernoulli, etc) and the values imputed accordingly (via MICE - please see further down below). If this was not an option, careful consideration took place as to the variables ultimate importance to the target, and the null values simply dropped if suitable.
+
+## Problem Statement
+
+Through the above analysis and profile report, the problem statement for this project was determined:
+
+How effectively do different machine learning models predict the survival outcome of a patient in the hospital, based on particular metrics that characterize the patient?
+The metrics in question include demographic, APACHE covariate, and any labs and vitals not characterized by the APACHE covariate metrics.
+
+In addition to this, the final target and feature dataset configuration was determined. Please refer to the end of Section 3 in the notebook for details on this.
+
+# Data Cleaning and Preparation
