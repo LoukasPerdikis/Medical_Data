@@ -26,6 +26,8 @@ The data used in this project is publicly available on [Kaggle](https://www.kagg
 **Please note**: 
 I do not own any part of the data used below, and full accreditation to its provision goes to the source publisher on Kaggle (Sadia Anzum). Please use the link provided above to obtain more information about the data used and the author.
 
+Functions were built throughout the project where necessary, and can be found in the respective sections where they are most utilised.
+
 **Please note**:
 Medical advice and recommendations should **ALWAYS** be solicited from a qualified medical practitioner. This project in no way serves as a medical recommendation or medical advice tool.
 
@@ -162,3 +164,15 @@ The metrics in question include demographic, APACHE covariate, and any labs and 
 In addition to this, the final target and feature dataset configuration was determined. Please refer to the end of Section 3 in the notebook for details on this.
 
 # Data Cleaning and Preparation
+
+Based on the previous section, the necessary steps to preapre and clean the data for machine learning model development took place. First, irrelevant or undesirable columns were removed from the feature list.
+
+Following this, feature engineering took place on the BMI column. In instances where the BMI feature was missing values, calculating the value was attempted by using the patient's height and weight. This is where the second obstacle was encountered: the rows which were missing the BMI value were also missing the height and weight columns. This meant that feature engineering could not take place after all, most unfortunate!
+
+Null values were dealt with next. For binary features, null rows were simply filled with 0s. For other columns, imputation occured via MICE. By using MICE (Multivariate Imputation by Chained Equation), the missing values in the dataset were be filled in by running a series of regression models. These models imputed the missing values sequentially. For more information on how MICE works, please refer to this [article](https://towardsdatascience.com/imputing-missing-data-with-simple-and-advanced-techniques-f5c7b157fb87). MICE is particularly useful as it is a non-parametric method of achieving imputation, meaning that values could be filled effectively regardless of the distribution spread that each feature was characterised by. 
+
+This, however is where the third obstacle was encountered: MICE imputation on categorical variables (where the categories defined numerically) , would yield decimal values in place of integer numbers. In order to overcome this, the values in these columns were simply floored using numpy's floor() method.
+
+Finally, the resulting dataset was investigated for duplicate rows. The first instance of each row was kept, and the remaining duplicates removed from the dataset. 
+
+In order to further peruse and investigate the nature of the cleaned dataset for machine learning, the pandas_profile library tool to generate data reports was used once again. For more details, please access the html file in the root folder (final_medical_data_profile.html).
