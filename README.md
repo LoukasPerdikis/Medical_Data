@@ -132,7 +132,7 @@ It is an important step in any data science project to acknowledge and deal with
 
 ## General Exploration and Analysis
 
-Specific categories in the data were explored and visualised appropriately. Nulls were discovered, alongisde irrelevant or highly correlated columns. This was an important step in the analysis as it helped guide the kind of questions that could be asked and hence, the kind of machine learning problem that could be developed. 
+Specific categories in the data were explored and visualised appropriately. Nulls were discovered, alongside irrelevant or highly correlated columns. This was an important step in the analysis as it helped guide the kind of questions that could be asked and hence, the kind of machine learning problem that could be developed. 
 
 For the in-depth analysis and details on the exploration and analysis, please refer to the notebook (Capstone - Medical Data), specifically Section 3.
 
@@ -204,9 +204,9 @@ The trained models were saved in a dictionary, were orderly model evaluation cou
 
 ## Metrics Discussion
 
-Suitable classification algorithm metrics included model accuracy, precision, recall and F1 scores. A confusion matrix heatmap was also be of great assistance in determining how well the models performed in terms of Type I and Type II errrors. In addition to this, the ROC curve alongisde the AUC score was be used to determine how well the model has performed in classifying unseen data.
+Suitable classification algorithm metrics included model accuracy, precision, recall and F1 scores. A confusion matrix heatmap was also of great assistance in determining how well the models performed in terms of Type I and Type II errors. In addition to this, the ROC curve alongside the AUC score was used to determine how well the model has performed in classifying unseen data.
 
-In general, the closer the scores were to 1, the better the model had performed. Conversely, the closer the scores were to 0, the worse the model had performed. This applied to the accuracy, precision, f1, recall, and AUC scores.
+In general, the closer the scores were to 1, the better the model had performed. Conversely, the closer the scores were to 0, the worse the model had performed. This applied to the accuracy, precision, F1, recall, and AUC scores.
 To interpret the ROC curve, the closer the curve appeared to the top left of the plot (i.e., the larger the area under the curve), the better the model had performed.
 
 The reason why these metrics were chosen was due to what they represent relative to classification machine learning problems, as outlined in this [article](https://vitalflux.com/accuracy-precision-recall-f1-score-python-example/). Before the metrics can be discussed below, a short description of the difference between false and true positives and negatives is provided:
@@ -223,7 +223,7 @@ class as negative.
 
 ## Accuracy
 
-Accuracy represents how well a model is able to achieve an exact match when comparing its predicted values and the true values. It is calculated through the ratio of true positives and true negaties to all positive and negative data points. The score produced gives an idea of how accurately the model can predict the **correct** outcome, given the appropriate datapoints. Accuracy does not give any information regarding the nature of the produced model's errors.
+Accuracy represents how well a model is able to achieve an exact match when comparing its predicted values and the true values. It is calculated through the ratio of true positives and true negatives to all positive and negative data points. The score produced gives an idea of how accurately the model can predict the **correct** outcome, given the appropriate datapoints. Accuracy does not give any information regarding the nature of the produced model's errors.
 
 ## Precision
 
@@ -231,7 +231,7 @@ This is the proportion of positively predicted labels that are indeed correct. U
 
 ## Recall
 
-This metric represents the model's ability to predict the positive values out of all actual positive values. A high recall shows that a model can easily identify true positive data examples, and opposite is true if the recall score is low. It is calculated by taking the ratio of true positives to the sum of false negatives and true positives. Recall is slightly different to precision, in that precision is concerned with the proportion of positively predicte labels, while the recall actually needs to correctly identify what those positive labels are. It is a great metric to see how well the model can avoid false negatives.
+This metric represents the model's ability to predict the positive values out of all actual positive values. A high recall shows that a model can easily identify true positive data examples, and opposite is true if the recall score is low. It is calculated by taking the ratio of true positives to the sum of false negatives and true positives. Recall is slightly different to precision, in that precision is concerned with the proportion of positively predicted labels, while the recall actually needs to correctly identify what those positive labels are. It is a great metric to see how well the model can avoid false negatives.
 
 ## F1
 
@@ -242,7 +242,7 @@ It is an extremely useful metric in cases where models are optimized for recall 
 
 ## Model Performance Discussion
 
-In terms of **accuracy**, the RF model was clearly the best with a score of 91%. All other models scored in the high 70s, with the worst performaing model (in terms of accuracy) being KNN at 74%. For instances where accuracy is the only metric that matters, RF is the obvious choice.
+In terms of **accuracy**, the RF model was clearly the best with a score of 91%. All other models scored in the high 70s, with the worst performing model (in terms of accuracy) being KNN at 74%. For instances where accuracy is the only metric that matters, RF is the obvious choice.
 
 In terms of **precision**, once again the RF model is superior with a score of 52%. It is alarming that the highest precision score is only 52%, however, as this shows that half the time the model predicts a patient would die, they actually would not die. The other models perform even worse, with values ranging from 16% (KNN once again) to 23%. This means that for these models, patients would survive between 84% and 77% of the time the model has determined they would not.
 
@@ -254,13 +254,13 @@ In terms of **ROC-AUC**, RF scores the highest once again with a value of 85%. T
 
 ## Conclusion
 
-Despite poor performance across the board in terms of false postive and flase negative discernment, all of the models did an acceptable job of classifying unseen data. The poor recall and precision scores could be improved with further analysis and model tweaking, however this is beyond the scope of this project.
+Despite poor performance across the board in terms of false positive and false negative discernment, all of the models did an acceptable job of classifying unseen data. The poor recall and precision scores could be improved with further analysis and model tweaking, however this is beyond the scope of this project.
 
 Overall, the Random Forest classifier was the highest performing model, having obtained the best accuracy, precision and ROC-AUC scores, but performing the worst in recall. The produced RF model's accuracy and ROC-AUC are deemed sufficiently high for the purposes of the problem statement declared in Section 3.
 
 # Deployment
 
-A technical article has been written and published on Medium. It can be found [here]()INSERT ARTICLE 
+A technical article has been written and published on Medium. It can be found [here](https://medium.com/@loukas.perdikis/hospital-patient-survivability-a-data-science-project-9e1a67590457)
 
 **Please note**:
 Medical advice and recommendations should **ALWAYS** be solicited from a qualified medical practitioner. This project in no way serves as a medical recommendation or medical advice tool.
