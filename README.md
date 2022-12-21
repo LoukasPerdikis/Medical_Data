@@ -256,7 +256,9 @@ In terms of **ROC-AUC**, RF scores the highest once again with a value of 85%. T
 
 Despite poor performance across the board in terms of false positive and false negative discernment, all of the models did an acceptable job of classifying unseen data. The poor recall and precision scores could be improved with further analysis and model tweaking, however this is beyond the scope of this project.
 
-Overall, the Random Forest classifier was the highest performing model, having obtained the best accuracy, precision and ROC-AUC scores, but performing the worst in recall. The produced RF model's accuracy and ROC-AUC are deemed sufficiently high for the purposes of the problem statement declared in Section 3.
+Overall, the Random Forest classifier was the highest performing model, having obtained the best accuracy, precision and ROC-AUC scores, but performing the worst in recall. The produced RF model's accuracy and ROC-AUC are deemed sufficiently high for the purposes of the problem statement declared previously.
+
+Improvement could be achieved by retraining the models with more parameters in GridSearch, and by further refining the data preaparation process to use more advanced imputation methods for better data spread and accuracy.
 
 # Deployment
 
